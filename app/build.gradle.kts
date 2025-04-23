@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "app.code.petshopandroidapp"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "app.code.petshopandroidapp"
@@ -60,6 +60,10 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.ui.text.google.fonts)
+    implementation(libs.androidx.navigation.runtime.android)
+    implementation(libs.androidx.foundation.layout.android)
+    implementation(libs.androidx.foundation.layout.android)
+    implementation(libs.androidx.navigation.compose)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
