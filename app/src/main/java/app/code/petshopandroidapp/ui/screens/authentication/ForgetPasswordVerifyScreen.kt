@@ -47,7 +47,7 @@ import app.code.petshopandroidapp.ui.viewmodel.RegisterViewModel
 fun ForgetPasswordVerifyScreen(
     context: Context,
     navController: NavController,
-    viewModel: RegisterViewModel = RegisterViewModel()
+//    viewModel: RegisterViewModel = RegisterViewModel()
 ) {
     Surface(
         modifier = Modifier.fillMaxSize(),

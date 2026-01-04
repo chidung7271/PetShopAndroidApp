@@ -1,0 +1,3 @@
+;/*FB_PKG_DELIM*/
+
+__d("CometVideoHomeSurfaceHighlightsLoggingUtils",["VideoHomeTypedLiteLogger"],(function(a,b,c,d,e,f,g){"use strict";function a(a,b,d){c("VideoHomeTypedLiteLogger").log({attribution_id_v2:d,badge_type:a,click_target:"notif_hub_update",event:"click",event_target:"notif_hub",player_origin:"video_home",player_suborigin:"notif_hub",section_video_channel_type:b,tab_type:"www_updates_surface"})}function b(a,b,d){c("VideoHomeTypedLiteLogger").log({attribution_id_v2:d,badge_type:a,event:"vpv_duration",event_target:"notif_hub",player_origin:"video_home",player_suborigin:"notif_hub",section_video_channel_type:b,tab_type:"www_updates_surface"})}g.logBadgeCardClick=a;g.logBadgeCardImpression=b}),98);

@@ -1,4 +1,6 @@
 plugins {
+    id("com.google.dagger.hilt.android")
+    id("kotlin-kapt")
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
 }
@@ -50,7 +52,16 @@ android {
 }
 
 dependencies {
-
+    implementation ("com.itextpdf:itext7-core:7.2.5")
+    implementation ("com.ibm.icu:icu4j:72.1")
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+    implementation("io.coil-kt:coil-compose:2.4.0")
+    implementation ("androidx.activity:activity-compose")
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation (libs.androidx.hilt.navigation.compose)
+    implementation (libs.hilt.android)
+    kapt (libs.hilt.compiler)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -61,7 +72,6 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.ui.text.google.fonts)
     implementation(libs.androidx.navigation.runtime.android)
-    implementation(libs.androidx.foundation.layout.android)
     implementation(libs.androidx.foundation.layout.android)
     implementation(libs.androidx.navigation.compose)
     testImplementation(libs.junit)

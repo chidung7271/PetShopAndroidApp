@@ -1,7 +1,7 @@
 package app.code.petshopandroidapp.ui.screens.authentication
 
 import android.content.Context
-import android.icu.text.CaseMap.Title
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -21,6 +21,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -40,14 +43,32 @@ import app.code.petshopandroidapp.ui.components.CommonComposable.Companion.Title
 import app.code.petshopandroidapp.ui.theme.BorderColor
 import app.code.petshopandroidapp.ui.theme.ItemBackgroundColor
 import app.code.petshopandroidapp.ui.viewmodel.RegisterViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
+import app.code.petshopandroidapp.ui.navigation.AppRoutes
 
 
 @Composable
 fun RegisterVerifyScreen(
     context: Context,
     navController: NavController,
-    viewModel: RegisterViewModel = RegisterViewModel()
+    viewModel: RegisterViewModel = hiltViewModel(navController.getBackStackEntry(AppRoutes.Authentication.AuthGraph.route))
 ) {
+    val email by viewModel.email.collectAsState()
+    val otp by viewModel.otp.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
+
+    LaunchedEffect(uiState.success) {
+        if (uiState.success) {
+            navController.navigate(AppRoutes.Authentication.SignIn.route) {
+                popUpTo(AppRoutes.Authentication.AuthGraph.route) { inclusive = true }
+            }
+        }
+    }
+
+    LaunchedEffect(uiState.error) {
+        uiState.error?.let { Toast.makeText(context, it, Toast.LENGTH_SHORT).show() }
+    }
+
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -85,24 +106,27 @@ fun RegisterVerifyScreen(
                             .fillMaxWidth()
                             .padding(top = 34.dp, start = 20.dp, end = 20.dp, bottom = 19.dp),
                     ) {
-                        NormalText(text = "Nhập email của bạn")
-                        Spacer(modifier = Modifier.height(9.dp))
-                        TextField(
-                            label = "your@email.com",
-                            onChangeValue = {}
-                        )
-                        Spacer(modifier = Modifier.height(19.5.dp))
                         NormalText(text = "Mã xác nhận gởi đến email của bạn")
                         Spacer(modifier = Modifier.height(9.dp))
                         OTPTextField(
                             label = "Mã xác nhận",
-                            onChangeValue = {},
+                            onChangeValue = viewModel::onOtpChanged,
                         )
                         Spacer(modifier = Modifier.height(20.dp))
                         SubmitButton(
                             text = "Đăng ký",
                             onClick = {
-                                navController.navigate("Login")
+                                if (email.isBlank()) {
+                                    Toast.makeText(context, "Vui lòng nhập email", Toast.LENGTH_SHORT).show()
+                                    return@SubmitButton
+                                }
+                                if (otp.isBlank()) {
+                                    Toast.makeText(context, "Vui lòng nhập mã xác nhận", Toast.LENGTH_SHORT).show()
+                                    return@SubmitButton
+                                }
+                                if (!uiState.isLoading) {
+                                    viewModel.confirmRegister()
+                                }
                             },
                             modifier = Modifier.fillMaxWidth()
                         )

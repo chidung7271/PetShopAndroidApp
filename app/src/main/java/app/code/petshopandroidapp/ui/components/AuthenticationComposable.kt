@@ -21,6 +21,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -40,12 +41,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.code.petshopandroidapp.R
 import app.code.petshopandroidapp.ui.components.CommonComposable.Companion.NormalText
+import app.code.petshopandroidapp.ui.components.CommonComposable.Companion.SmallText
 import app.code.petshopandroidapp.ui.theme.BlackColor
 import app.code.petshopandroidapp.ui.theme.BorderSubmitButtonColor
 import app.code.petshopandroidapp.ui.theme.InterFonts
 import app.code.petshopandroidapp.ui.theme.LinkColor
 import app.code.petshopandroidapp.ui.theme.StrokeTextFormColor
 import app.code.petshopandroidapp.ui.theme.SubmitButtonColor
+import kotlinx.coroutines.delay
 
 class AuthenticationComposable {
     companion object {
@@ -150,6 +153,24 @@ class AuthenticationComposable {
                 border = BorderStroke(2.dp, BorderSubmitButtonColor)
             ) {
                 NormalText(text)
+            }
+        }
+
+        @Composable
+        fun ButtonErrorMessage(error: String, onDismiss: () -> Unit) {
+            var showMessage by remember { mutableStateOf(false) }
+
+            LaunchedEffect(error) {
+                if (error.isNotEmpty()) {
+                    showMessage = true
+                    delay(2000) // Thời gian hiển thị thông báo
+                    showMessage = false
+                    onDismiss() // Gọi callback để reset error
+                }
+            }
+
+            if (showMessage) {
+                SmallText(error, color = Color.Red)
             }
         }
 

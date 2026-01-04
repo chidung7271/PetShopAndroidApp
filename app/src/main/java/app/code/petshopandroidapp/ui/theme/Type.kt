@@ -81,5 +81,10 @@ object InterFonts {
         fontSize = 12.sp,
         fontWeight = FontWeight.Medium
     )
+    val numStatistics = TextStyle(
+        fontFamily = fontFamily,
+        fontSize = 25.sp,
+        fontWeight = FontWeight.Normal
+    )
 }
 

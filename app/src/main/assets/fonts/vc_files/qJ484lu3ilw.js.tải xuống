@@ -1,0 +1,15 @@
+;/*FB_PKG_DELIM*/
+
+__d("FDSAppMessengerOutline20Icon",["cr:14343"],(function(a,b,c,d,e,f,g){"use strict";g["default"]=b("cr:14343")}),98);
+__d("FDSAppMessengerOutline20PNGIcon.react",["ix","fbicon"],(function(a,b,c,d,e,f,g,h){"use strict";a=d("fbicon")._(h("505620"),20);b=a;g["default"]=b}),98);
+__d("FDSFriendBlockOutline20Icon",["cr:14972"],(function(a,b,c,d,e,f,g){"use strict";g["default"]=b("cr:14972")}),98);
+__d("FDSFriendBlockOutline20PNGIcon.react",["ix","fbicon"],(function(a,b,c,d,e,f,g,h){"use strict";a=d("fbicon")._(h("482898"),20);b=a;g["default"]=b}),98);
+__d("FDSInboxOutline20Icon",["cr:15150"],(function(a,b,c,d,e,f,g){"use strict";g["default"]=b("cr:15150")}),98);
+__d("FDSInboxOutline20PNGIcon.react",["ix","fbicon"],(function(a,b,c,d,e,f,g,h){"use strict";a=d("fbicon")._(h("510235"),20);b=a;g["default"]=b}),98);
+__d("FDSMagnifyingGlassOutline20Icon",["cr:15244"],(function(a,b,c,d,e,f,g){"use strict";g["default"]=b("cr:15244")}),98);
+__d("FDSMagnifyingGlassOutline20PNGIcon.react",["ix","fbicon"],(function(a,b,c,d,e,f,g,h){"use strict";a=d("fbicon")._(h("491286"),20);b=a;g["default"]=b}),98);
+__d("FDSPhoneOutline20Icon",["cr:14120"],(function(a,b,c,d,e,f,g){"use strict";g["default"]=b("cr:14120")}),98);
+__d("FDSPhoneOutline20PNGIcon.react",["ix","fbicon"],(function(a,b,c,d,e,f,g,h){"use strict";a=d("fbicon")._(h("558164"),20);b=a;g["default"]=b}),98);
+__d("FDSProfileOutline20Icon",["cr:15521"],(function(a,b,c,d,e,f,g){"use strict";g["default"]=b("cr:15521")}),98);
+__d("FDSProfileOutline20PNGIcon.react",["ix","fbicon"],(function(a,b,c,d,e,f,g,h){"use strict";a=d("fbicon")._(h("558623"),20);b=a;g["default"]=b}),98);
+__d("XCometPageVanityControllerRouteBuilder",["jsRouteBuilder"],(function(a,b,c,d,e,f,g){a=c("jsRouteBuilder")("/{vanity}/",Object.freeze({ref:""}),void 0);b=a;g["default"]=b}),98);

@@ -1,6 +1,7 @@
 package app.code.petshopandroidapp.ui.screens.authentication
 
 import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -20,12 +21,16 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import app.code.petshopandroidapp.R
@@ -35,6 +40,7 @@ import app.code.petshopandroidapp.ui.components.CommonComposable.Companion.TextB
 import app.code.petshopandroidapp.ui.components.CommonComposable.Companion.TextField
 import app.code.petshopandroidapp.ui.theme.BorderColor
 import app.code.petshopandroidapp.ui.theme.ItemBackgroundColor
+import app.code.petshopandroidapp.ui.navigation.AppRoutes
 import app.code.petshopandroidapp.ui.viewmodel.RegisterViewModel
 
 
@@ -42,8 +48,23 @@ import app.code.petshopandroidapp.ui.viewmodel.RegisterViewModel
 fun RegisterScreen(
     context: Context,
     navController: NavController,
-    viewModel: RegisterViewModel = RegisterViewModel()
+    viewModel: RegisterViewModel = hiltViewModel(navController.getBackStackEntry(AppRoutes.Authentication.AuthGraph.route))
 ) {
+    val uiState by viewModel.uiState.collectAsState()
+    val username by viewModel.username.collectAsState()
+    val password by viewModel.password.collectAsState()
+    val confirmPassword by viewModel.confirmPassword.collectAsState()
+    val email by viewModel.email.collectAsState()
+
+    LaunchedEffect(uiState.codeSent) {
+        if (uiState.codeSent) {
+            navController.navigate(AppRoutes.Authentication.SignUpVerification.route)
+        }
+    }
+
+    LaunchedEffect(uiState.error) {
+        uiState.error?.let { Toast.makeText(context, it, Toast.LENGTH_SHORT).show() }
+    }
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -73,7 +94,14 @@ fun RegisterScreen(
                         Spacer(modifier = Modifier.height(9.dp))
                         TextField(
                             label = "Username",
-                            onChangeValue = {}
+                            onChangeValue = viewModel::onUsernameChanged
+                        )
+                        Spacer(modifier = Modifier.height(18.5.dp))
+                        NormalText(text = "Email")
+                        Spacer(modifier = Modifier.height(9.dp))
+                        TextField(
+                            label = "you@example.com",
+                            onChangeValue = viewModel::onEmailChanged
                         )
                         Spacer(modifier = Modifier.height(18.5.dp))
                         NormalText(text = "Mật khẩu")
@@ -81,7 +109,7 @@ fun RegisterScreen(
                         TextField(
                             label = "Password",
                             textFieldType = 0,
-                            onChangeValue = {},
+                            onChangeValue = viewModel::onPasswordChanged,
                         )
                         Spacer(modifier = Modifier.height(18.5.dp))
                         NormalText(text = "Xác nhận mật khẩu")
@@ -89,13 +117,21 @@ fun RegisterScreen(
                         TextField(
                             label = "Confirm Password",
                             textFieldType = 0,
-                            onChangeValue = {},
+                            onChangeValue = viewModel::onConfirmPasswordChanged,
                         )
                         Spacer(modifier = Modifier.height(20.dp))
                         SubmitButton(
                             text = "Đăng ký",
                             onClick = {
-                                navController.navigate("Login")
+                                if (username.isBlank() || email.isBlank() || password.isBlank() || confirmPassword.isBlank()) {
+                                    Toast.makeText(context, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show()
+                                    return@SubmitButton
+                                }
+                                if (password != confirmPassword) {
+                                    Toast.makeText(context, "Mật khẩu không khớp", Toast.LENGTH_SHORT).show()
+                                    return@SubmitButton
+                                }
+                                viewModel.sendOtp()
                             },
                             modifier = Modifier.fillMaxWidth()
                         )
@@ -110,7 +146,7 @@ fun RegisterScreen(
                 ) {
                     NormalText("Đã có tài khoản?")
                     TextButton(onClick = {
-                        navController.navigate("SignUp")
+                        navController.navigate(AppRoutes.Authentication.SignIn.route)
                     }, text = "Đăng nhập")
 
                 }
