@@ -369,9 +369,9 @@ fun InventoryActionDialog(
     val searchSuggestions by viewModel.searchSuggestions.collectAsState()
 
     // Tìm kiếm khi searchQuery thay đổi
-    LaunchedEffect(searchQuery, itemType) {
+    LaunchedEffect(searchQuery) {
         if (searchQuery.isNotBlank() && itemId.isBlank()) {
-            viewModel.searchItems(searchQuery, itemType)
+            viewModel.searchItems(searchQuery, "product")
             showSuggestions = true
         } else {
             viewModel.clearSearchSuggestions()
@@ -409,33 +409,8 @@ fun InventoryActionDialog(
         title = { Text(title, fontWeight = FontWeight.Bold) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                // Loại item
-                Text(text = "Loại hàng", fontWeight = FontWeight.SemiBold)
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    FilterChip(
-                        selected = itemType == "product",
-                        onClick = {
-                            itemType = "product"
-                            searchQuery = ""
-                            itemId = ""
-                            itemName = ""
-                        },
-                        label = { Text("Sản phẩm") }
-                    )
-                    FilterChip(
-                        selected = itemType == "service",
-                        onClick = {
-                            itemType = "service"
-                            searchQuery = ""
-                            itemId = ""
-                            itemName = ""
-                        },
-                        label = { Text("Dịch vụ") }
-                    )
-                }
-
-                // Search field với autocomplete
-                Text(text = "Tìm kiếm ${if (itemType == "product") "sản phẩm" else "dịch vụ"}", fontWeight = FontWeight.SemiBold)
+                // Search field với autocomplete (chỉ sản phẩm)
+                Text(text = "Tìm kiếm sản phẩm", fontWeight = FontWeight.SemiBold)
                 
                 Column {
                     OutlinedTextField(
